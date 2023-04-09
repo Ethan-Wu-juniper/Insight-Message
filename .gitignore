@@ -21,3 +21,15 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# example created by react
+example/
+
+# test
+test/
+
+# static files
+*.png
+*.jpg
+*.jpeg
+*.csv
