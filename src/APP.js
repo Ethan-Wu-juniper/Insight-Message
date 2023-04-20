@@ -9,6 +9,7 @@ function APP() {
     <div className="APP">
       {/* <h1>Welcome to React Router!</h1> */}
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="home" element={<Home />} />
         <Route path="login" element={<Login />} />
       </Routes>

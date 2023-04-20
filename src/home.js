@@ -1,12 +1,13 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import WordCloud from "./word_cloud";
-// import BarChart from "./chart";
+import BarChart from "./chart";
 
 function Home(props) {
   const location = useLocation();
   // console.log("Home state", location);
-  const authenticated = JSON.parse(localStorage.getItem("authenticated"));
+  // const authenticated = JSON.parse(localStorage.getItem("authenticated"));
+  const authenticated = true;
   // console.log("outer authenticated", authenticated);
 
   if (!authenticated) {
@@ -15,7 +16,7 @@ function Home(props) {
     return (
       <div>
         <WordCloud data={location.state.data} />
-        {/* <BarChart /> */}
+        <BarChart />
       </div>
     );
   }
