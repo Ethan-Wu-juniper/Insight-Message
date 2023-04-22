@@ -15,7 +15,6 @@ function BarChart(props) {
   const marginRef = useRef({ top: 10, right: 35, bottom: 20, left: 40 });
 
   useEffect(() => {
-    console.log("data", data_obj);
     if(!data_obj) {
       return;
     }
@@ -81,7 +80,7 @@ function BarChart(props) {
     // Load data from API
     callApi("http://127.0.0.1:8000/emotion", "GET")
       .then(data => {
-        console.log("fetched data", data);
+        console.log("emotion data", data);
         setDataObj(data)
       });
   }, []);

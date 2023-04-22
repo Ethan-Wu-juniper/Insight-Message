@@ -33,10 +33,7 @@ const Home = () => (
 
 export function _Home(props) {
   const location = useLocation();
-  // console.log("Home state", location);
   const authenticated = JSON.parse(localStorage.getItem("authenticated"));
-  // const authenticated = true;
-  // console.log("outer authenticated", authenticated);
 
   if (!authenticated) {
     return <Navigate replace to="/login" />;

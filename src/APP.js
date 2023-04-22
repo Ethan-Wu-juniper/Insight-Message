@@ -4,7 +4,6 @@ import Login from "./login";
 import Home from "./home";
 
 function APP() {
-  // console.log("test in APP")
   return (
     <Routes>
       {/* <Route path="/" element={<Home />} /> */}

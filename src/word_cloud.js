@@ -5,7 +5,6 @@ import { callApi } from "./utils.js";
 import './ChartContainer.css'
 
 function WordCloud(props) {
-  // console.log("WordCloud props", props);
   const svgRef = useRef(null);
   // d3.select(svgRef.current).selectAll('*').remove();
   const [data_obj, setDataObj] = useState(null);
