@@ -12,31 +12,6 @@ const login_fb = (username, password, navigate) => {
       console.log("data", data);
       navigate("/home", {state: {data}});
     });
-
-  // fetch("http://127.0.0.1:8000/login", {
-  //   method: "POST",
-  //   body: JSON.stringify({ info: data, params: params }),
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   }
-  // })
-  // .then(response => {
-  //   if (response.ok) {
-  //     return response.json()
-  //     // console.log("response data", response.json());
-  //   } else {
-  //     // handle login error
-  //     console.log("login error");
-  //   }
-  // })
-  // .then(data => {
-  //   console.log("data", data);
-  //   navigate("/home", {state: {data}});
-  // })
-  // .catch(error => {
-  //   // handle network error
-  //   console.log("network error");
-  // });
 };
 
 
