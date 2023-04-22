@@ -8,9 +8,7 @@ const login_fb = (username, password, navigate) => {
 
   callApi("http://127.0.0.1:8000/login", "POST", { info: data, params: params })
     .then(data => {
-      // TODO : nevigate to loading page first, fetch data there, then to home page
-      console.log("data", data);
-      navigate("/home", {state: {data}});
+      navigate("/home");
     });
 };
 

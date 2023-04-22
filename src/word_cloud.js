@@ -1,19 +1,32 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import * as cloud from "d3-cloud";
+import { callApi } from "./utils.js";
 import './ChartContainer.css'
 
 function WordCloud(props) {
   // console.log("WordCloud props", props);
   const svgRef = useRef(null);
   // d3.select(svgRef.current).selectAll('*').remove();
+  const [data_obj, setDataObj] = useState(null);
 
   useEffect(() => {
+    if(!data_obj) {
+      return;
+    }
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
-    let data = JSON.parse(JSON.stringify(props.data)); // 不用 deep copy 也可以跑，但是 data 會被改變
-    createWordCloud(data);
-  });
+    // let data = JSON.parse(JSON.stringify(data_obj)); // 不用 deep copy 也可以跑，但是 data 會被改變
+    createWordCloud(data_obj);
+  }, [data_obj]);
+
+  useEffect(() => {
+    callApi("http://127.0.0.1:8000/word_count", "GET")
+    .then(data => {
+      console.log("word_count data", data);
+      setDataObj(data);
+    }); 
+  }, []);
 
   function createWordCloud(data) {
     var w = 1024,

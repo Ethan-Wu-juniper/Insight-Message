@@ -11,11 +11,14 @@ function BarChart(props) {
   const width = 600;
   const height = 400;
 
-  const [data_obj, setDataObj] = useState([0,0,0,0,0]);
+  const [data_obj, setDataObj] = useState(null);
   const marginRef = useRef({ top: 10, right: 35, bottom: 20, left: 40 });
 
   useEffect(() => {
     console.log("data", data_obj);
+    if(!data_obj) {
+      return;
+    }
     const data = Object.values(data_obj);
     const labels = Object.keys(data_obj);
     const svg = d3.select(svgRef.current);
