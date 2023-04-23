@@ -7,8 +7,10 @@ import ReactFullpage from '@fullpage/react-fullpage';
 const Home = () => (
   <ReactFullpage
     //fullpage options
-    licenseKey={'YOUR_KEY_HERE'}
+    licenseKey={'gplv3-license'}
     scrollingSpeed={1000} /* Options here */
+    navigation={true} // 顯示導行列
+    navigationPosition="right" // 導行列位置
 
     render={({ state, fullpageApi }) => {
       const authenticated = JSON.parse(localStorage.getItem("authenticated"));

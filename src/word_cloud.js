@@ -28,6 +28,7 @@ function WordCloud(props) {
   }, []);
 
   function createWordCloud(data) {
+    // TODO : 加上顏色和動畫
     var w = 1024,
       h = 512,
       maxFont = 96,
@@ -41,7 +42,8 @@ function WordCloud(props) {
       .words(data)
       .spiral("rectangular")
       .rotate(function () {
-        return ~~(Math.random() * 2) * -30 || 60;
+        return 0;
+        // return ~~(Math.random() * 2) * -30 || 60;
       })
       //.text(function (d) { return d.text; })
       .font("Impact")

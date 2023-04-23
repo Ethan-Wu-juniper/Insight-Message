@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { callApi } from "./utils.js";
+import "./login.css";
+import "bootstrap/dist/css/bootstrap.min.css"
 
 const Loading = () => {
   return (
-    <div>
-      <h1>
-        Loading...
-      </h1>
+    <div className="loading-container">
+      <div className="loading-text"></div>
     </div>
   )
 }
@@ -41,21 +41,34 @@ const Form = (props) => {
 
   };
   return (
-    <div>
-      <p>Welcome Back</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="Username"
-          value={username}
-          onChange={(e) => setusername(e.target.value)}
-        />
-        <input
-          type="password"
-          name="Password"
-          onChange={(e) => setpassword(e.target.value)}
-        />
-        <input type="submit" value="Submit" />
+    <div className="Auth-form-container">
+      <form className="Auth-form" onSubmit={handleSubmit}>
+        <div className="Auth-form-content">
+          <h3 className="Auth-form-title">Sign In</h3>
+          <div className="form-group mt-3">
+            <label>Email address</label>
+            <input
+              type="email"
+              className="form-control mt-1"
+              placeholder="Enter email"
+              onChange={(e) => setusername(e.target.value)}
+            />
+          </div>
+          <div className="form-group mt-3">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control mt-1"
+              placeholder="Enter password"
+              onChange={(e) => setpassword(e.target.value)}
+            />
+          </div>
+          <div className="d-grid gap-2 mt-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   )
