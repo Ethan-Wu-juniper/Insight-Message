@@ -1,22 +1,54 @@
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import WordCloud from "./word_cloud";
-import BarChart from "./chart";
+import ReactFullpage from '@fullpage/react-fullpage';
+import Dashboard from "./dashboard";
+import "./fullpage.css"
+import "./home.css"
 
-function Home(props) {
-  const location = useLocation();
-  // console.log("Home state", location);
-  // const authenticated = JSON.parse(localStorage.getItem("authenticated"));
-  const authenticated = true;
-  // console.log("outer authenticated", authenticated);
+const Home = () => (
+  <ReactFullpage
+    //fullpage options
+    licenseKey={'gplv3-license'}
+    scrollingSpeed={1000} /* Options here */
+    navigation={true} // 顯示導行列
+    navigationPosition="right" // 導行列位置
 
-  if (!authenticated) {
+    render={({ state, fullpageApi }) => {
+      const authenticated = JSON.parse(localStorage.getItem("authenticated"));
+      if (!authenticated)
+        console.log();
+      if (false) {
+        return <Navigate replace to="/login" />;
+      } else {
+        return (
+          <ReactFullpage.Wrapper>
+            <div className="section" id="cloud">
+              <WordCloud />
+            </div>
+            <div className="section">
+              <Dashboard />
+            </div>
+            <div className="section">
+            </div>
+          </ReactFullpage.Wrapper>
+        );
+      }
+    }}
+  />
+);
+
+export function _Home(props) {
+  // const location = useLocation();
+  const authenticated = JSON.parse(localStorage.getItem("authenticated"));
+  if(!authenticated)
+    console.log();
+  if (false) {
     return <Navigate replace to="/login" />;
   } else {
     return (
       <div>
-        <WordCloud data={location.state.data} />
-        <BarChart />
+        <Dashboard />
       </div>
     );
   }
