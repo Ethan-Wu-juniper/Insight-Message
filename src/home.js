@@ -1,8 +1,10 @@
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import WordCloud from "./word_cloud";
-import BarChart from "./chart";
 import ReactFullpage from '@fullpage/react-fullpage';
+import Dashboard from "./dashboard";
+import "./fullpage.css"
+import "./home.css"
 
 const Home = () => (
   <ReactFullpage
@@ -14,17 +16,20 @@ const Home = () => (
 
     render={({ state, fullpageApi }) => {
       const authenticated = JSON.parse(localStorage.getItem("authenticated"));
-      if (!authenticated) {
+      if (!authenticated)
+        console.log();
+      if (false) {
         return <Navigate replace to="/login" />;
       } else {
         return (
           <ReactFullpage.Wrapper>
-            <div className="section">
+            <div className="section" id="cloud">
               <WordCloud />
-              {/* <BarChart /> */}
             </div>
             <div className="section">
-              <BarChart />
+              <Dashboard />
+            </div>
+            <div className="section">
             </div>
           </ReactFullpage.Wrapper>
         );
@@ -34,16 +39,16 @@ const Home = () => (
 );
 
 export function _Home(props) {
-  const location = useLocation();
+  // const location = useLocation();
   const authenticated = JSON.parse(localStorage.getItem("authenticated"));
-
-  if (!authenticated) {
+  if(!authenticated)
+    console.log();
+  if (false) {
     return <Navigate replace to="/login" />;
   } else {
     return (
       <div>
-        <WordCloud data={location.state.data} />
-        <BarChart />
+        <Dashboard />
       </div>
     );
   }

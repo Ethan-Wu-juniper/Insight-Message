@@ -29,7 +29,7 @@ const Form = (props) => {
 
       callApi("http://127.0.0.1:8000/login", "POST", { info: data, params: params })
         .then(data => {
-          console.log("login data", data);
+          // console.log("login data", data);
           setIsLoading(false);
           navigate("/home");
         });

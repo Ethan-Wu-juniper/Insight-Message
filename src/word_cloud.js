@@ -22,7 +22,7 @@ function WordCloud(props) {
   useEffect(() => {
     callApi("http://127.0.0.1:8000/word_count", "GET")
     .then(data => {
-      console.log("word_count data", data);
+      // console.log("word_count data", data);
       setDataObj(data);
     }); 
   }, []);

@@ -80,16 +80,13 @@ function BarChart(props) {
     // Load data from API
     callApi("http://127.0.0.1:8000/emotion", "GET")
       .then(data => {
-        console.log("emotion data", data);
         setDataObj(data)
       });
   }, []);
 
 
   return (
-    <div className='ChartContainer' style={{ width, height }}>
-      <svg ref={svgRef} width={width} height={height}></svg>
-    </div>
+    <svg ref={svgRef} width={width} height={height}></svg>
   );
 }
 
