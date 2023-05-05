@@ -1,0 +1,28 @@
+#title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#title h1 {
+    font-size: 5em;
+    font-weight: 900;
+    color: #1c6d9f;
+    /* text-shadow: 0 0 10px #000; */
+}
+
+.info {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.info h2 {
+    color: #aeaeae;
+}
+
+.info text {
+    font-size: 3em;
+    font-weight: 300;
+}

@@ -8,11 +8,11 @@ function BarChart(props) {
   // const margin = { top: 10, right: 35, bottom: 20, left: 40 };
   const svgRef = useRef(null);
 
-  const width = 600;
-  const height = 400;
-
+  
   const [data_obj, setDataObj] = useState(null);
-  const marginRef = useRef({ top: 10, right: 35, bottom: 20, left: 40 });
+  const marginRef = useRef({ top: 30, right: 35, bottom: 30, left: 50 });
+  const width = useRef(props.width);
+  const height = useRef(props.height);
 
   useEffect(() => {
     if(!data_obj) {
@@ -22,6 +22,8 @@ function BarChart(props) {
     const labels = Object.keys(data_obj);
     const svg = d3.select(svgRef.current);
     const margin = marginRef.current;
+    const InnerWidth = width.current;
+    const InnerHeight = height.current;
     svg.selectAll('*').remove();
 
     // Tooltip
@@ -40,12 +42,12 @@ function BarChart(props) {
     // Scales
     const xScale = d3.scaleBand()
       .domain(d3.range(data.length))
-      .range([margin.left, width - margin.right])
+      .range([margin.left, InnerWidth - margin.right])
       .padding(0.1);
 
     const yScale = d3.scaleLinear()
       .domain([0, d3.max(data)])
-      .range([height - margin.bottom, margin.top])
+      .range([InnerHeight - margin.bottom, margin.top])
       .nice();
 
     // Bars
@@ -56,7 +58,7 @@ function BarChart(props) {
       .attr('x', (d, i) => xScale(i))
       .attr('y', (d) => yScale(d))
       .attr('width', xScale.bandwidth())
-      .attr('height', (d) => height - margin.bottom - yScale(d))
+      .attr('height', (d) => InnerHeight - margin.bottom - yScale(d))
       .attr('fill', 'steelblue')
       .on('mouseover', tooltip.show)
       .on('mouseout', tooltip.hide);
@@ -64,8 +66,9 @@ function BarChart(props) {
     // add the x Axis
     svg
       .append('g')
-      .attr('transform', `translate(0, ${height - margin.bottom})`)
+      .attr('transform', `translate(0, ${InnerHeight - margin.bottom})`)
       .attr('class', 'xaxis')
+      .style("font-size","20px")
       .call(d3.axisBottom(xScale).tickSizeOuter(0).tickFormat((d) => labels[d]))
 
     // add the y Axis
@@ -73,6 +76,7 @@ function BarChart(props) {
       .append('g')
       .attr('transform', `translate(${margin.left}, 0)`)
       .attr('class', 'yaxis')
+      .style("font-size","20px")
       .call(d3.axisLeft(yScale).ticks(5))  
   }, [data_obj]);
 

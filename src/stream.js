@@ -7,32 +7,35 @@ function StreamGraph(props) {
   // const margin = { top: 10, right: 35, bottom: 20, left: 40 };
   const svgRef = useRef(null);
 
-  const width = 600;
-  const height = 400;
 
   const [data_obj, setDataObj] = useState(null);
   const marginRef = useRef({ top: 10, right: 35, bottom: 20, left: 40 });
+  const width = useRef(props.width - marginRef.current.left - marginRef.current.right);
+  const height = useRef(props.height - marginRef.current.top - marginRef.current.bottom);
+  // let mouseX = useRef(0);
+  // let mouseY = useRef(0);
 
   useEffect(() => {
     if (!data_obj) {
       return;
     }
+    const margin = marginRef.current;
+    const InnerWidth = width.current;
+    const InnerHeight = height.current;
+    // let mouseX, mouseY;
+
     // const data = data_obj;
-    const data = data_obj['data'];
+    const data = data_obj['data'].slice(Math.max(0, data_obj['data'].length - 12));
+    const xOffset = InnerWidth / data.length;
+
     data.columns = data_obj['columns'];
     const svg = d3.select(svgRef.current);
-    const margin = marginRef.current;
     svg.selectAll('*').remove();
-
-    // Tooltip
-
-    const width = 1000 - margin.left - margin.right;
-    const height = 800 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     svg
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", InnerWidth + margin.left + margin.right)
+      .attr("height", InnerHeight + margin.top + margin.bottom)
       .append("g")
       .attr("transform",
         `translate(${margin.left}, ${margin.top})`);
@@ -47,10 +50,10 @@ function StreamGraph(props) {
     // Add X axis
     const x = d3.scaleOrdinal()
       .domain(data.map(d => d.month))
-      .range(d3.range(0, width, width / data.length));
+      .range(d3.range(0, InnerWidth, InnerWidth / data.length));
     svg.append("g")
-      .attr("transform", `translate(0, ${height * 0.8})`)
-      .call(d3.axisBottom(x).tickSize(-height * .7).tickValues(data.map(d => d.month)))
+      .attr("transform", `translate(${xOffset}, ${InnerHeight * 0.9})`)
+      .call(d3.axisBottom(x).tickSize(-InnerHeight * .8).tickValues(data.map(d => d.month)))
       .select(".domain").remove()
     // Customization
     svg.selectAll(".tick line").attr("stroke", "#b8b8b8")
@@ -58,14 +61,14 @@ function StreamGraph(props) {
     // Add X axis label:
     svg.append("text")
       .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height - 30)
-      .text("Time (year)");
+      .attr("x", InnerWidth)
+      .attr("y", InnerHeight - 10)
+      .text("Time (month)");
 
     // Add Y axis
     const y = d3.scaleLinear()
-      .domain([-200, 200])
-      .range([height, 0]);
+      .domain([-300, 300])
+      .range([InnerHeight, 0]);
 
     // color palette
     const color = d3.scaleOrdinal()
@@ -78,19 +81,22 @@ function StreamGraph(props) {
       .keys(keys)
       (data)
 
-    // console.log("stackedData", stackedData);
-    // for (let i = 0; i < data.length; i++) {
-    //   console.log("month", data[i].month);
-    //   console.log("month map", x(data[i].month));
-    // }
-
-    // create a tooltip
+    // Tooltip
     const Tooltip = svg
       .append("text")
-      .attr("x", 0)
-      .attr("y", 0)
       .style("opacity", 0)
-      .style("font-size", 17)
+      .style("font-size", 27)
+      .attr("x", 20)
+      .attr("y", InnerHeight)
+
+    // handle mouse events
+    // function handleMouseMove(event) {
+    //   [mouseX.current, mouseY.current] = d3.pointer(event);
+    //   Tooltip
+    //     .attr("x", mouseX.current)
+    //     .attr("y", mouseY.current)
+    // };
+    // svg.on('mousemove', handleMouseMove);
 
     // Three function that change the tooltip when user hover / move / leave a cell
     const mouseover = function (event, d) {
@@ -111,7 +117,7 @@ function StreamGraph(props) {
 
     // Area generator
     const area = d3.area()
-      .x(function (d) { return x(d.data.month); })
+      .x(function (d) { return x(d.data.month) + xOffset; })
       .y0(function (d) { return y(d[0]); })
       .y1(function (d) { return y(d[1]); })
 
@@ -131,10 +137,6 @@ function StreamGraph(props) {
   }, [data_obj]);
 
   useEffect(() => {
-    d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/5_OneCatSevNumOrdered_wide.csv").then(function (data) {
-      console.log("online data", data);
-      // setDataObj(data);
-    });
     // Load data from API
     callApi("http://127.0.0.1:8000/stream", "GET")
       .then(data => {
