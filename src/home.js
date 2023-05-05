@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import WordCloud from "./word_cloud";
 import ReactFullpage from '@fullpage/react-fullpage';
 import Dashboard from "./dashboard";
+import SocialGraph from "./social_graph";
 import "./fullpage.css"
 import "./home.css"
 
@@ -35,6 +36,7 @@ const Home = () => (
               <Dashboard />
             </div>
             <div className="section">
+              <SocialGraph width={screenWidth * 0.9} height={screenHeight * 0.7} />
             </div>
           </ReactFullpage.Wrapper>
         );
