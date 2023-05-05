@@ -28,18 +28,18 @@ const Dashboard = () => {
 
   const screenWidth = window.innerWidth;
   // const screenHeight = window.innerHeight;
-  const colNum = 12;
+  const colNum = 25;
   const rowHeight = 30;
   const Static = true;
   // layout is an array of objects, see the demo for more complete usage
   const layout = [
-    { i: "title", x: 0, y: 0, w: 11, h: 4, static: Static },
-    { i: "bar", x: 6, y: 8, w: 5, h: 16, static: Static },
-    { i: "stream", x: 0, y: 8, w: 6, h: 16, static: Static },
-    { i: "MaxEmotion", x: 0, y: 4, w: 2, h: 4, static: Static },
-    { i: "MsgNum", x: 2, y: 4, w: 3, h: 4, static: Static },
-    { i: "Peak", x: 5, y: 4, w: 3, h: 4, static: Static },
-    { i: "Person", x: 8, y: 4, w: 3, h: 4, static: Static },
+    { i: "title", x: 0, y: 0, w: 25, h: 4, static: Static },
+    { i: "stream", x: 1, y: 8, w: 13, h: 16, static: Static },
+    { i: "bar", x: 14, y: 8, w: 10, h: 16, static: Static },
+    { i: "MaxEmotion", x: 1, y: 4, w: 5, h: 4, static: Static },
+    { i: "MsgNum", x: 6, y: 4, w: 6, h: 4, static: Static },
+    { i: "Peak", x: 12, y: 4, w: 6, h: 4, static: Static },
+    { i: "Person", x: 18, y: 4, w: 6, h: 4, static: Static },
   ];
   const getH = (i) => {
     const h = layout.find(obj => obj.i === i).h;

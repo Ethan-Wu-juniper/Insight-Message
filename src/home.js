@@ -16,6 +16,8 @@ const Home = () => (
 
     render={({ state, fullpageApi }) => {
       const authenticated = JSON.parse(localStorage.getItem("authenticated"));
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
       if (!authenticated)
         console.log();
       if (false) {
@@ -24,7 +26,10 @@ const Home = () => (
         return (
           <ReactFullpage.Wrapper>
             <div className="section" id="cloud">
-              <WordCloud />
+              <div id="cloud-title" style={{ width: screenWidth, height: screenHeight * 0.2 }}>
+                <h1>WordCloud</h1>
+              </div>
+              <WordCloud width={screenWidth * 0.9} height={screenHeight * 0.7} />
             </div>
             <div className="section">
               <Dashboard />

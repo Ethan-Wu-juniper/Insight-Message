@@ -3,11 +3,14 @@ import * as d3 from "d3";
 import * as cloud from "d3-cloud";
 import { callApi } from "./utils.js";
 import './ChartContainer.css'
+import './world_cloud.css'
 
 function WordCloud(props) {
   const svgRef = useRef(null);
   // d3.select(svgRef.current).selectAll('*').remove();
   const [data_obj, setDataObj] = useState(null);
+  const width = useRef(props.width);
+  const height = useRef(props.height);
 
   useEffect(() => {
     if(!data_obj) {
@@ -29,9 +32,9 @@ function WordCloud(props) {
 
   function createWordCloud(data) {
     // TODO : 加上顏色和動畫
-    var w = 1024,
-      h = 512,
-      maxFont = 96,
+    const w = width.current,
+      h = height.current;
+    var maxFont = 96,
       maxSize = data[0].size || 1,
       sizeOffset = maxFont / maxSize;
     // Use the data to create the word cloud
@@ -63,7 +66,7 @@ function WordCloud(props) {
           .append("g")
           .attr(
             "transform",
-            "translate(" + [w >> 1, (h >> 1) + 10] + ")scale(1)"
+            "translate(" + [w >> 1, (h >> 1) + 10] + ")scale(1.5)"
           );
           // .attr(
           //   "transform",
@@ -104,7 +107,7 @@ function WordCloud(props) {
   }
 
   return (
-    <div className='ChartContainer'>
+    <div className='ChartContainer' id="cloud-container" style={{ width: props.width, height: props.height }} >
       <section ref={svgRef} id="tag-cloud-wrapper"></section>
     </div>
   );
