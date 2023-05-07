@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-#cloud-title {
+#section-title {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -13,8 +13,12 @@
 }
 
 
-#cloud h1 {
+.uni-graph h1 {
     text-align: center;
     font-size: 5em;
     color: #1c6d9f;
+}
+
+.fp-watermark {
+    display: none;
 }

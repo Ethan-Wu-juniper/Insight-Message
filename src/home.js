@@ -26,8 +26,8 @@ const Home = () => (
       } else {
         return (
           <ReactFullpage.Wrapper>
-            <div className="section" id="cloud">
-              <div id="cloud-title" style={{ width: screenWidth, height: screenHeight * 0.2 }}>
+            <div className="section uni-graph" id="cloud">
+              <div id="section-title" style={{ width: screenWidth, height: screenHeight * 0.2 }}>
                 <h1>WordCloud</h1>
               </div>
               <WordCloud width={screenWidth * 0.9} height={screenHeight * 0.7} />
@@ -35,7 +35,10 @@ const Home = () => (
             <div className="section">
               <Dashboard />
             </div>
-            <div className="section">
+            <div className="section uni-graph">
+              <div id="section-title" style={{ width: screenWidth, height: screenHeight * 0.2 }}>
+                <h1>Social Graph</h1>
+              </div>
               <SocialGraph width={screenWidth * 0.9} height={screenHeight * 0.7} />
             </div>
           </ReactFullpage.Wrapper>
