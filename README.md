@@ -43,7 +43,7 @@ The problem with the NLP model used in this project is that it may exhibit bias 
 ## Getting Started
 
 ```bash
-git clone 
+git clone https://github.com/Ethan-Wu-juniper/Insight-Message.git
 npm install
 npm run start
 ```
