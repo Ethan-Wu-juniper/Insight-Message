@@ -4,7 +4,7 @@ Insight Message is an app that allows you to scrape messages from Facebook, anal
 > this project is named by ChatGPT
 
 ## Demo
-https://github.com/Ethan-Wu-juniper/Insight-Message/assets/80157211/2f1024c4-c96e-4be2-a2f4-e1ed201dcb8a
+[![Alt text for your video](http://img.youtube.com/vi/MgZNXxkPyTU/0.jpg)](http://www.youtube.com/watch?v=MgZNXxkPyTU)
 
 ## Tools and Packages
 ### Frontend
