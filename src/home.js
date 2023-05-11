@@ -20,8 +20,9 @@ const Home = () => (
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
       if (!authenticated)
-        console.log();
-      if (false) {
+      //   console.log();
+      // if (false) 
+      {
         return <Navigate replace to="/login" />;
       } else {
         return (

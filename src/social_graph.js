@@ -4,6 +4,155 @@ import * as d3 from "d3";
 import './ChartContainer.css'
 import { callApi } from "./utils.js";
 
+function legend(svg, {
+  offsetX,
+  offsetY,
+  color,
+  title,
+  tickSize = 6,
+  width = 320,
+  height = 44 + tickSize,
+  marginTop = 18,
+  marginRight = 0,
+  marginBottom = 16 + tickSize,
+  marginLeft = 0,
+  ticks = width / 64,
+  tickFormat,
+  tickValues
+} = {}) {
+
+  let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
+  let x;
+  const imgOffetY = offsetY - height + marginTop + tickSize;
+
+  // Continuous
+  if (color.interpolate) {
+    const n = Math.min(color.domain().length, color.range().length);
+
+    x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
+
+    svg.append("image")
+      .attr("transform", `translate(${offsetX - width},${imgOffetY})`)
+      .attr("x", marginLeft)
+      .attr("y", marginTop)
+      .attr("width", width - marginLeft - marginRight)
+      .attr("height", height - marginTop - marginBottom)
+      .attr("preserveAspectRatio", "none")
+      .attr("xlink:href", ramp(color.copy().domain(d3.quantize(d3.interpolate(0, 1), n))).toDataURL());
+  }
+
+  // Sequential
+  else if (color.interpolator) {
+    x = Object.assign(color.copy()
+      .interpolator(d3.interpolateRound(marginLeft, width - marginRight)), {
+        range() {
+          return [marginLeft, width - marginRight];
+        }
+      });
+
+    svg.append("image")
+      .attr("transform", `translate(${offsetX - width},${imgOffetY})`)
+      .attr("x", marginLeft)
+      .attr("y", marginTop)
+      .attr("width", width - marginLeft - marginRight)
+      .attr("height", height - marginTop - marginBottom)
+      .attr("preserveAspectRatio", "none")
+      .attr("xlink:href", ramp(color.interpolator()).toDataURL());
+
+    // scaleSequentialQuantile doesn’t implement ticks or tickFormat.
+    if (!x.ticks) {
+      if (tickValues === undefined) {
+        const n = Math.round(ticks + 1);
+        tickValues = d3.range(n).map(i => d3.quantile(color.domain(), i / (n - 1)));
+      }
+      if (typeof tickFormat !== "function") {
+        tickFormat = d3.format(tickFormat === undefined ? ",f" : tickFormat);
+      }
+    }
+  }
+
+  // Threshold
+  else if (color.invertExtent) {
+    const thresholds = color.thresholds ? color.thresholds() // scaleQuantize
+      :
+      color.quantiles ? color.quantiles() // scaleQuantile
+      :
+      color.domain(); // scaleThreshold
+
+    const thresholdFormat = tickFormat === undefined ? d => d :
+      typeof tickFormat === "string" ? d3.format(tickFormat) :
+      tickFormat;
+
+    x = d3.scaleLinear()
+      .domain([-1, color.range().length - 1])
+      .rangeRound([marginLeft, width - marginRight]);
+
+    svg.append("g")
+      .selectAll("rect")
+      .data(color.range())
+      .join("rect")
+      .attr("x", (d, i) => x(i - 1))
+      .attr("y", marginTop)
+      .attr("width", (d, i) => x(i) - x(i - 1))
+      .attr("height", height - marginTop - marginBottom)
+      .attr("fill", d => d);
+
+    tickValues = d3.range(thresholds.length);
+    tickFormat = i => thresholdFormat(thresholds[i], i);
+  }
+
+  // Ordinal
+  else {
+    x = d3.scaleBand()
+      .domain(color.domain())
+      .rangeRound([marginLeft, width - marginRight]);
+
+    svg.append("g")
+      .selectAll("rect")
+      .data(color.domain())
+      .join("rect")
+      .attr("x", x)
+      .attr("y", marginTop)
+      .attr("width", Math.max(0, x.bandwidth() - 1))
+      .attr("height", height - marginTop - marginBottom)
+      .attr("fill", color);
+
+    tickAdjust = () => {};
+  }
+
+  svg.append("g")
+    .attr("transform", `translate(${offsetX - width},${offsetY})`)
+    .call(d3.axisBottom(x)
+      .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
+      .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
+      .tickSize(tickSize)
+      .tickValues(tickValues))
+    .call(tickAdjust)
+    .call(g => g.select(".domain").remove())
+    .call(g => g.append("text")
+      .attr("x", marginLeft)
+      .attr("y", marginTop + marginBottom - height - 6)
+      .attr("fill", "currentColor")
+      .attr("text-anchor", "start")
+      .attr("font-weight", "bold")
+      .text(title));
+
+  return svg.node();
+}
+
+function ramp(color, n = 256) {
+  var canvas = document.createElement('canvas');
+  canvas.width = n;
+  canvas.height = 1;
+  const context = canvas.getContext("2d");
+  for (let i = 0; i < n; ++i) {
+    context.fillStyle = color(i / (n - 1));
+    context.fillRect(i, 0, 1, 1);
+  }
+  return canvas;
+}
+
+
 function SocialGraph(props) {
   const svgRef = useRef(null);
   const [data_obj, setDataObj] = useState(null);
@@ -23,32 +172,6 @@ function SocialGraph(props) {
       .append("g")
       .attr("transform",
         `translate(${margin.left}, ${margin.top})`);
-
-    // const data = {
-    //   "nodes": [
-    //     { "id": 1, "name": "A" },
-    //     { "id": 2, "name": "B" },
-    //     { "id": 3, "name": "C" },
-    //     { "id": 4, "name": "D" },
-    //     { "id": 5, "name": "E" },
-    //     { "id": 6, "name": "F" },
-    //     { "id": 7, "name": "G" },
-    //     { "id": 8, "name": "H" },
-    //     { "id": 9, "name": "I" },
-    //     { "id": 10, "name": "J" }
-    //   ],
-    //   "links": [
-    //     { "source": 1, "target": 2 },
-    //     { "source": 1, "target": 3 },
-    //     { "source": 1, "target": 4 },
-    //     { "source": 1, "target": 5 },
-    //     { "source": 1, "target": 6 },
-    //     { "source": 1, "target": 7 },
-    //     { "source": 1, "target": 8 },
-    //     { "source": 1, "target": 9 },
-    //     { "source": 1, "target": 10 }
-    //   ]
-    // }
 
     const data = {
       "nodes": [],
@@ -184,6 +307,14 @@ function SocialGraph(props) {
           return d.y - 25; 
         });
     }
+
+    // const colorMap = d3.scaleSequential(d3.interpolateSpectral).domain([0, 0.8])
+    legend(svg, {
+      offsetX: width.current,
+      offsetY: height.current, 
+      color: d3.scaleSequential([0, 0.8], d3.interpolateSpectral),
+      title: "Social Score"
+    })
   },
     // [data_obj]
   );

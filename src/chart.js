@@ -32,7 +32,7 @@ function BarChart(props) {
     let tooltip = d3Tip().attr('class', 'd3-tip').html(
       d => 
         `
-          <div>${d.target.__data__}</div>
+          <div>${d.target.__data__.value}</div>
         `
     )
     svg.call(tooltip);
