@@ -33,10 +33,10 @@ const Home = () => (
               </div>
               <WordCloud width={screenWidth * 0.9} height={screenHeight * 0.7} />
             </div>
-            <div className="section">
+            <div className="section" id="dash">
               <Dashboard />
             </div>
-            <div className="section uni-graph">
+            <div className="section uni-graph" id="social">
               <div id="section-title" style={{ width: screenWidth, height: screenHeight * 0.2 }}>
                 <h1>Social Graph</h1>
               </div>

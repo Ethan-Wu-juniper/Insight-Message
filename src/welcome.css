@@ -1,0 +1,63 @@
+.WelcomePage {
+    background: linear-gradient(45deg, #59bcf8, #4366fb, #a33ce1, #e6449a, #fa4f76);
+    background-size: 200% 200%;
+    animation: gradient 12s ease infinite;
+    width: 100vw;
+    height: 100vh;
+}
+
+.WelcomePageTitle {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 40%;
+}
+
+.WelcomePageTitle h1 {
+    font-size: 5em;
+    font-weight: 900;
+    color: #fff;
+}
+
+.Paragraph {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    text-align: center;
+    width: 75%;
+    margin: 0 auto;
+}
+
+.Paragraph p {
+    font-size: 18px;
+    color: #fff;
+    width: 70%;
+    margin: 0 auto;
+    line-height:1.9;
+}
+
+.LoginButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 40%;
+}
+
+.LoginButton button {
+    font-size: 2em;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

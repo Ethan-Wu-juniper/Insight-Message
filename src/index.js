@@ -6,7 +6,7 @@ import './index.css';
 import APP from './APP';
 import { BrowserRouter } from "react-router-dom";
 
-localStorage.setItem("authenticated", JSON.stringify(false));
+// localStorage.setItem("authenticated", JSON.stringify(false));
 // console.log("index authenticated", localStorage.getItem("authenticated"));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
