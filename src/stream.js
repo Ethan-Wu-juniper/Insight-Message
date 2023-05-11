@@ -141,7 +141,6 @@ function StreamGraph(props) {
     // Load data from API
     callApi("http://127.0.0.1:8000/stream", "GET")
       .then(data => {
-        console.log("stream raw data", data);
         setDataObj(data);
       });
   }, []);

@@ -55,7 +55,6 @@ function SocialGraph(props) {
       "links": []
     };
     const recipientNum = Object.keys(data_obj).length - 1;
-    console.log("recipientNum", recipientNum)
 
     data.nodes.push({ "id": 0, "name": data_obj["myself"] });
     delete data_obj["myself"];
@@ -83,7 +82,6 @@ function SocialGraph(props) {
 
     const normalizedTotalScore = (Score) => 1 - ((Score - minTotalScore) / (maxTotalScore - minTotalScore)) + 0.5;
 
-    console.log("data", data);
     const link = svg
       .selectAll("line")
       .data(data.links)
@@ -193,7 +191,6 @@ function SocialGraph(props) {
   useEffect(() => {
     callApi("http://127.0.0.1:8000/social", "GET").then(res => {
       setDataObj(res);
-      console.log("social data", res);
     })
   }, []);
   return (

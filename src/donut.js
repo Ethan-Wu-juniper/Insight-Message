@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { callApi } from "./utils.js";
 import cmap from "./variables.js";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './donut.css'
 
 function DonutChart(svg, data, {
   name,
@@ -28,8 +30,9 @@ function DonutChart(svg, data, {
   
   if (names === undefined) names = N;
   names = new d3.InternSet(names);
+  let values = new d3.InternSet(V);
+  let messageNum = d3.sum(values);
 
-  // console.log(d3.schemeSpectral[names.size]);
   // if (colors === undefined) colors = d3.schemeSpectral[names.size];
   // if (colors === undefined) colors = d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), names.size);
 
@@ -40,8 +43,9 @@ function DonutChart(svg, data, {
   
   if (title === undefined) {
     // const formatValue = d3.format(format);
-    // title = i => `${N[i]}\n${formatValue(V[i])}`;
-    title = i => `${N[i]}`;
+    // TODO: 這邊百分比這樣算加總可能會不等於 100%，但我懶得弄了
+    title = i => `${N[i]}\n${Math.round(V[i]/messageNum*100)}%`;
+    // title = i => `${N[i]}`;
   } else {
     const O = d3.map(data, d => d);
     const T = title;
@@ -52,6 +56,13 @@ function DonutChart(svg, data, {
   const arcs = d3.pie().padAngle(padAngle).sort(null).value(i => V[i])(I);
   const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
   const arcLabel = d3.arc().innerRadius(labelRadius).outerRadius(labelRadius);
+  const emoMap = {
+    "neutral": "neutral",
+    "anger": "angry",
+    "joy": "laughing",
+    "sadness": "frown",
+    "fear": "dizzy",
+  }
 
   const mouseover = function (event, d) {
     // Tooltip.style("opacity", 1)
@@ -59,6 +70,12 @@ function DonutChart(svg, data, {
     d3.select(this)
       .style("stroke", "black")
       .style("opacity", 1)
+    const emo = d3.select(this)
+      .attr("id");
+    d3
+      .select(".donut-container")
+      .select(".bi")
+      .classed(`bi-emoji-${emoMap[emo]}`, true);
   }
   const mousemove = function (event, d, i) {
     // let grp = d.key
@@ -66,7 +83,11 @@ function DonutChart(svg, data, {
   }
   const mouseleave = function (event, d) {
     // Tooltip.style("opacity", 0)
-    d3.selectAll(".DonutArea").style("opacity", 1).style("stroke", "none")
+    d3.selectAll(".DonutArea").style("opacity", 1).style("stroke", "none");
+    d3
+      .select(".donut-container")
+      .select(".bi")
+      .attr("class", "bi");
   }
   
   svg
@@ -83,6 +104,7 @@ function DonutChart(svg, data, {
     .data(arcs)
     .join("path")
       .attr("class", "DonutArea")
+      .attr("id", d => N[d.data])
       .attr("fill", d => color(N[d.data]))
       .attr("d", arc)
       .on("mouseover", mouseover)
@@ -112,7 +134,10 @@ function DonutChart(svg, data, {
       .attr("font-size", "1.5em")
       .text(d => d);
 
-
+  // svg.append('div')
+  //   .attr("class", "bi bi-emoji-angry")
+  //   .style('width', '24px')
+  //   .style('height', '24px');
 
   return Object.assign(svg.node(), {scales: {color}});
 }
@@ -161,7 +186,10 @@ function Donut(props) {
   }, []);
 
   return (
-    <svg  width={width} height={height} ref={svgRef}></svg>
+    <div className="donut-container">
+      <svg width={width} height={height} ref={svgRef}></svg>
+      <i className="bi"></i>
+    </div>
   )
 }
 

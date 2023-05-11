@@ -7,6 +7,7 @@ import Donut from "./donut";
 import StreamGraph from "./stream";
 import './dashboard.css';
 import { callApi } from "./utils.js";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Info = (props) => {
   return (
@@ -30,7 +31,6 @@ const Dashboard = () => {
   React.useEffect(() => {
     callApi("http://127.0.0.1:8000/info", "GET")
       .then(data => {
-        // console.log("info raw data", data);
         setInfoData(data);
       });
   }, []);
