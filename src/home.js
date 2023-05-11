@@ -48,20 +48,4 @@ const Home = () => (
   />
 );
 
-export function _Home(props) {
-  // const location = useLocation();
-  const authenticated = JSON.parse(localStorage.getItem("authenticated"));
-  if(!authenticated)
-    console.log();
-  if (false) {
-    return <Navigate replace to="/login" />;
-  } else {
-    return (
-      <div>
-        <Dashboard />
-      </div>
-    );
-  }
-}
-
 export default Home;

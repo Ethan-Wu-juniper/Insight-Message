@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import d3Tip from 'd3-tip';
 import { callApi } from "./utils.js";
 import './ChartContainer.css'
+// import cmap from './variables.js';
 
 function BarChart(props) {
   // const margin = { top: 10, right: 35, bottom: 20, left: 40 };
@@ -50,15 +51,25 @@ function BarChart(props) {
       .range([InnerHeight - margin.bottom, margin.top])
       .nice();
 
+    // const color = d3.scaleOrdinal()
+    //   .domain(Object.keys(cmap))
+    //   .range(Object.values(cmap));
+
+    const data_list = Object.entries(data_obj).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
     // Bars
     svg.selectAll('rect')
-      .data(data)
+      .data(data_list)
       .enter()
       .append('rect')
       .attr('x', (d, i) => xScale(i))
-      .attr('y', (d) => yScale(d))
+      .attr('y', (d) => yScale(d.value))
       .attr('width', xScale.bandwidth())
-      .attr('height', (d) => InnerHeight - margin.bottom - yScale(d))
+      .attr('height', (d) => InnerHeight - margin.bottom - yScale(d.value))
+      // .attr('fill', d => color(d.name))
       .attr('fill', 'steelblue')
       .on('mouseover', tooltip.show)
       .on('mouseout', tooltip.hide);

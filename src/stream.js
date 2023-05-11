@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { callApi } from "./utils.js";
 import './ChartContainer.css'
+import cmap from './variables.js';
 
 function StreamGraph(props) {
   // const margin = { top: 10, right: 35, bottom: 20, left: 40 };
@@ -72,8 +73,8 @@ function StreamGraph(props) {
 
     // color palette
     const color = d3.scaleOrdinal()
-      .domain(keys)
-      .range(d3.schemeDark2);
+      .domain(Object.keys(cmap))
+      .range(Object.values(cmap));
 
     //stack the data?
     const stackedData = d3.stack()
