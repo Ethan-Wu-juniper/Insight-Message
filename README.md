@@ -19,7 +19,7 @@ Insight Message is an app that allows you to scrape messages from Facebook, anal
 This project is written in Python and leverages Scrapy for web scraping messages. The messages are then analyzed for sentiment using an NLP model. FastAPI is used to efficiently pass the results of the sentiment analysis.
 
 ## UI
-### World Cloud
+### Word Cloud
 In order to analyze the messages, the project utilizes Jieba to tokenize the text into individual words. The word count is then calculated, and a graph is generated based on the results.
 
 ### Dash Board
